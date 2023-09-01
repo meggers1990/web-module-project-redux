@@ -16,12 +16,14 @@ const reducer = (state = initialState, action) => {
         case ADD_MOVIE:
             const newMovie = {
                 ...action.payload,
-                id: Date.now()
-            }
-            return{
+                id: Data.now()
+            };
+
+            return {
                 ...state,
                 movies: [...state.movies, newMovie]
             }
+
         default:
             return state;
     }
