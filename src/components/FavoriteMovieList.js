@@ -1,25 +1,42 @@
-import React from 'react';
+import React from "react";
+import { Link } from "react-router-dom";
+import { toggleFavorites } from "../actions/favoritesActions";
+import { connect } from "react-redux";
 
-import { Link } from 'react-router-dom';
+const MovieHeader = (props) => {
+  const appTitle = "";
+  const { displayFavorites, toggleFavorites } = props;
 
+  return (
+    <div className="table-title">
+      <div className="row">
+        <div className="col-sm-6">
+          <h2>{props.appTitle}</h2>
+        </div>
+        <div className="col-sm-6 headerBar">
+          <div className="btn btn-sm btn-primary">
+            <span onClick={toggleFavorites}>
+              {displayFavorites ? "Hide" : "Show"} Favorites
+            </span>
+          </div>
+          <Link to="/movies" className="btn btn-sm btn-primary">
+            View All Movies
+          </Link>
+          <Link to="/movies/add" className="btn btn-sm btn-success">
+            <i className="material-icons">&#xE147;</i>{" "}
+            <span>Add New Movie</span>
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-const FavoriteMovieList = (props) => {
-    const favorites = [];
-    
-    return (<div className="col-xs savedContainer">
-        <h5>Favorite Movies</h5>
-        {
-            favorites.map(movie=>{
-                return <div key={movie.id}>
-                    <Link className="btn btn-light savedButton" to={`/movies/${movie.id}`}>
-                        {movie.title}
-                        <span><span class="material-icons">remove_circle</span></span>
-                    </Link> 
-                </div>
-            })
-        }
-    </div>);
-}
+const mapStateToProps = (state) => {
+  return {
+    displayFavorites: state.favoritesReducer.displayFavorites,
+    appTitle: state.movieReducer.appTitle,
+  };
+};
 
-
-export default FavoriteMovieList;
+export default connect(mapStateToProps, { toggleFavorites })(MovieHeader);
